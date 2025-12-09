@@ -6,6 +6,10 @@ import yt_utils
 from Auth.routes import router as auth_router
 from users.routes import router as users_router
 import requests
+from dotenv import load_dotenv
+import os
+load_dotenv()
+yt_api = os.getenv("youtube_api")
 class Query(BaseModel):
     query : str
 
@@ -39,8 +43,9 @@ def ask_from_url(q: Query, url: str):
 @app.get("/video_info")
 def video_data(video_url):
  video_id = yt_utils.extraxt_id(video_url)
- youtube_api = (f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={video_id}&key=Your_api_key")
- response = requests.get(youtube_api).json()
+
+ youtube_api1 = (f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={video_id}&key={yt_api}")
+ response = requests.get(youtube_api1).json()
  if not response.get("items"):
        return {"error" : "Video not found"}
  snippet = response["items"][0]["snippet"]  
@@ -50,3 +55,4 @@ def video_data(video_url):
         "channel" : snippet["channelTitle"]
         
         }
+print(video_data("https://www.youtube.com/watch?v=jxD0H79mdRI"))

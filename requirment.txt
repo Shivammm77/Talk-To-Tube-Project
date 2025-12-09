@@ -1,0 +1,25 @@
+fastapi
+uvicorn[standard]
+pydantic
+python-dotenv
+requests
+youtube_transcript_api
+# LangChain core packages
+langchain
+langchain-core
+langchain-community
+langchain-text-splitters
+langchain-groq
+langchain-chroma
+
+# Embeddings & Vector DB
+faiss-cpu
+huggingface-hub
+sentence-transformers
+
+# Auth (your modules depend on them)
+passlib[bcrypt]
+python-jose
+
+# Optional utilities
+regex
