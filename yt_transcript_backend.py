@@ -5,12 +5,13 @@ from fastapi.middleware.cors import CORSMiddleware
 import yt_utils
 from Auth.routes import router as auth_router
 from users.routes import router as users_router
+from fastapi import FastAPI, Query, Body
 import requests
 from dotenv import load_dotenv
 import os
 load_dotenv()
 yt_api = os.getenv("youtube_api")
-class Query(BaseModel):
+class Query1(BaseModel):
     query : str
 
 app = FastAPI()
@@ -32,7 +33,8 @@ def welcome():
 from urllib.parse import urlparse, parse_qs
 
 @app.post("/ask/")
-def ask_from_url(q: Query, url: str):
+def ask_from_url( url: str = Query(...),
+    q: Query1 = Body(...)):
     parsed_url = urlparse(url)
     video_id = parse_qs(parsed_url.query).get('v', [None])[0]
     if not video_id:
@@ -41,7 +43,7 @@ def ask_from_url(q: Query, url: str):
     return response
     
 @app.get("/video_info")
-def video_data(video_url):
+def video_data(video_url: str = Query(...)):
  video_id = yt_utils.extraxt_id(video_url)
 
  youtube_api1 = (f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={video_id}&key={yt_api}")
