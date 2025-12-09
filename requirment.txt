@@ -1,7 +1,7 @@
 # FastAPI core
 fastapi
 uvicorn[standard]
-
+python-multipart
 # Environment variables
 python-dotenv
 
