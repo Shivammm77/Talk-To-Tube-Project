@@ -35,10 +35,7 @@ from urllib.parse import urlparse, parse_qs
 @app.post("/ask/")
 def ask_from_url( url: str = Query(...),
     q: Query1 = Body(...)):
-    parsed_url = urlparse(url)
-    video_id = parse_qs(parsed_url.query).get('v', [None])[0]
-    if not video_id:
-        return {"error": "Invalid YouTube URL"}
+    video_id = yt_utils.extraxt_id(url)
     response = yt.ask_question(video_id, q.query)
     return response
     

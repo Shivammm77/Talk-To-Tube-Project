@@ -47,6 +47,8 @@ def format_doc(result):
 
 def ask_question(video_id: str, question: str):
     retriever = indexing(video_id)
+    if retriever is None:
+         return {"error": "Transcript unavailable or could not be processed for this video."}
     llm = ChatGroq(model="llama-3.1-8b-instant", api_key=api, temperature=0.3)
     prompt = ChatPromptTemplate.from_messages([
         ("system", "You are a YouTube transcript helper. If answer not in context, say: I don't know."),
